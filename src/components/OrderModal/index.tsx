@@ -3,6 +3,7 @@ import { Portal } from '@/components/Portal';
 import { ORDER_STATUS } from '@/constants/order-status';
 import { Order } from '@/types/Order';
 import { formatCurrency } from '@/utils/format-currency';
+import { useEffect } from 'react';
 
 import * as S from './styles';
 
@@ -25,6 +26,20 @@ interface OrderModalProps {
 export const OrderModal = (props: OrderModalProps) => {
   const { isOpen, onClose, order } = props;
 
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+  
   if (!isOpen) {
     return null;
   }
