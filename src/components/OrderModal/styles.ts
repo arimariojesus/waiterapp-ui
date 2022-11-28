@@ -135,13 +135,18 @@ export const ActionButton = styled.button<{ variant?: 'primary' | 'secondary' }>
 
     transition: 0.16s;
 
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     ${variant === 'primary'
       ? css`
           background: #333;
           border: 0;
           color: #fff;
 
-          &:hover {
+          &:hover:not(:disabled) {
             opacity: 0.95;
           }
         `
@@ -150,7 +155,7 @@ export const ActionButton = styled.button<{ variant?: 'primary' | 'secondary' }>
           border: 1px solid #d73035;
           color: #d73035;
 
-          &:hover {
+          &:hover:not(:disabled) {
             background: #d7303511;
           }
         `}

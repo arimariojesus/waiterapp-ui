@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import closeIcon from '@/assets/images/close-icon.svg';
 import { Portal } from '@/components/Portal';
 import { ORDER_STATUS } from '@/constants/order-status';
-import { IOrder } from '@/types/Order';
+import { IOrder, OrderStatus } from '@/types/Order';
 import { formatCurrency } from '@/utils/format-currency';
 
 import * as S from './styles';
@@ -22,10 +22,11 @@ interface OrderModalProps {
   isOpen: boolean;
   onClose(): void;
   order: IOrder;
+  isLoading?: boolean;
 }
 
 export const OrderModal = (props: OrderModalProps) => {
-  const { isOpen, onClose, order } = props;
+  const { isOpen, onClose, order, isLoading } = props;
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -40,7 +41,7 @@ export const OrderModal = (props: OrderModalProps) => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
-  
+
   if (!isOpen) {
     return null;
   }
@@ -94,11 +95,11 @@ export const OrderModal = (props: OrderModalProps) => {
           </S.OrderDetails>
 
           <S.Buttons>
-            <S.ActionButton variant="primary">
+            <S.ActionButton variant="primary" disabled={isLoading}>
               <span>👩🏾‍🍳</span>
               <strong>Iniciar produção</strong>
             </S.ActionButton>
-            <S.ActionButton variant="secondary">
+            <S.ActionButton variant="secondary" disabled={isLoading}>
               <strong>Cancelar pedido</strong>
             </S.ActionButton>
           </S.Buttons>
