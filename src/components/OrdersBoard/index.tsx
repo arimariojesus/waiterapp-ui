@@ -2,19 +2,25 @@ import { useState } from 'react';
 
 import { OrderModal } from '@/components/OrderModal';
 import { api } from '@/services/api';
-import { IOrder } from '@/types/Order';
+import { IOrder, OrderStatus } from '@/types/Order';
 
 import * as S from './styles';
+
+const NEXT_STATUS: Record<Exclude<OrderStatus, 'DONE'>, OrderStatus> = {
+  WAITING: 'IN_PRODUCTION',
+  IN_PRODUCTION: 'DONE',
+};
 
 interface OrdersBoardProps {
   icon: string;
   title: string;
   orders: IOrder[];
   onCancelOrder: (orderId: string) => void;
+  onChangeOrderStatus: (orderId: string, status: OrderStatus) => void;
 }
 
 export const OrdersBoard = (props: OrdersBoardProps) => {
-  const { icon, title, orders, onCancelOrder } = props;
+  const { icon, title, orders, onCancelOrder, onChangeOrderStatus } = props;
 
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -42,15 +48,28 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
     }
   };
 
+  const handleChangeOrderStatus = async (order: IOrder) => {
+    try {
+      setIsLoading(true);
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      await api.patch(`/orders/${order._id}`, { status: NEXT_STATUS[order.status] });
+    } finally {
+      onChangeOrderStatus(order._id, NEXT_STATUS[order.status]);
+      setIsLoading(false);
+      setIsModalVisible(false);
+    }
+  };
+
   return (
     <S.Board>
       {!!selectedOrder && (
         <OrderModal
-          isOpen={isModalVisible}
-          onClose={handleCloseModal}
           order={selectedOrder}
-          onCancelOrder={handleCancelOrder}
+          isOpen={isModalVisible}
           isLoading={isLoading}
+          onClose={handleCloseModal}
+          onCancelOrder={handleCancelOrder}
+          onChangeStatus={handleChangeOrderStatus}
         />
       )}
 

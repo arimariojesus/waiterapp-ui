@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { OrdersBoard } from '@/components/OrdersBoard';
 import { api } from '@/services/api';
-import { IOrder } from '@/types/Order';
+import { IOrder, OrderStatus } from '@/types/Order';
 
 import * as S from './styles';
 
@@ -21,6 +21,14 @@ export const Orders = () => {
     setOrders(_orders => orders.filter(order => order._id !== orderId));
   };
 
+  const handleChangeOrderStatus = (orderId: string, status: OrderStatus) => {
+    setOrders(_orders => orders.map(order => (
+      order._id === orderId
+        ? { ...order, status }
+        : order
+    )));
+  };
+
   const waiting = orders.filter(order => order.status === 'WAITING');
   const inProduction = orders.filter(order => order.status === 'IN_PRODUCTION');
   const done = orders.filter(order => order.status === 'DONE');
@@ -32,18 +40,21 @@ export const Orders = () => {
         title="Fila de espera"
         orders={waiting}
         onCancelOrder={handleCancelOrder}
+        onChangeOrderStatus={handleChangeOrderStatus}
       />
       <OrdersBoard
         icon="👩🏾‍🍳"
         title="Em preparação"
         orders={inProduction}
         onCancelOrder={handleCancelOrder}
+        onChangeOrderStatus={handleChangeOrderStatus}
       />
       <OrdersBoard
         icon="✅"
         title="Pronto!"
         orders={done}
         onCancelOrder={handleCancelOrder}
+        onChangeOrderStatus={handleChangeOrderStatus}
       />
     </S.Container>
   );

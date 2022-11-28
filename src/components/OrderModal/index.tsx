@@ -3,10 +3,24 @@ import { useEffect } from 'react';
 import closeIcon from '@/assets/images/close-icon.svg';
 import { Portal } from '@/components/Portal';
 import { ORDER_STATUS } from '@/constants/order-status';
-import { IOrder } from '@/types/Order';
+import { IOrder, OrderStatus } from '@/types/Order';
 import { formatCurrency } from '@/utils/format-currency';
 
 import * as S from './styles';
+
+const BUTTON_CONTENT_BY_STATUS: Record<
+  Exclude<OrderStatus, 'DONE'>,
+  { icon: string; title: string }
+> = {
+  WAITING: {
+    icon: '👩🏾‍🍳',
+    title: 'Iniciar produção',
+  },
+  IN_PRODUCTION: {
+    icon: '✅',
+    title: 'Concluir Pedido',
+  },
+};
 
 function getTotal(products: IOrder['products']) {
   return products.reduce((total, product) => {
@@ -24,10 +38,11 @@ interface OrderModalProps {
   order: IOrder;
   isLoading?: boolean;
   onCancelOrder: (order: IOrder) => void;
+  onChangeStatus: (order: IOrder) => void;
 }
 
 export const OrderModal = (props: OrderModalProps) => {
-  const { isOpen, onClose, order, isLoading, onCancelOrder } = props;
+  const { isOpen, onClose, order, isLoading, onCancelOrder, onChangeStatus } = props;
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -96,10 +111,16 @@ export const OrderModal = (props: OrderModalProps) => {
           </S.OrderDetails>
 
           <S.Buttons>
-            <S.ActionButton variant="primary" disabled={isLoading}>
-              <span>👩🏾‍🍳</span>
-              <strong>Iniciar produção</strong>
-            </S.ActionButton>
+            {order.status !== 'DONE' && (
+              <S.ActionButton
+                variant="primary"
+                disabled={isLoading}
+                onClick={() => onChangeStatus(order)}
+              >
+                <span>{BUTTON_CONTENT_BY_STATUS[order.status].icon}</span>
+                <strong>{BUTTON_CONTENT_BY_STATUS[order.status].title}</strong>
+              </S.ActionButton>
+            )}
 
             <S.ActionButton
               variant="secondary"
