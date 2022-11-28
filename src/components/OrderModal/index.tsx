@@ -1,13 +1,14 @@
+import { useEffect } from 'react';
+
 import closeIcon from '@/assets/images/close-icon.svg';
 import { Portal } from '@/components/Portal';
 import { ORDER_STATUS } from '@/constants/order-status';
-import { Order } from '@/types/Order';
+import { IOrder } from '@/types/Order';
 import { formatCurrency } from '@/utils/format-currency';
-import { useEffect } from 'react';
 
 import * as S from './styles';
 
-function getTotal(products: Order['products']) {
+function getTotal(products: IOrder['products']) {
   return products.reduce((total, product) => {
     const {
       product: { price },
@@ -20,7 +21,7 @@ function getTotal(products: Order['products']) {
 interface OrderModalProps {
   isOpen: boolean;
   onClose(): void;
-  order: Order;
+  order: IOrder;
 }
 
 export const OrderModal = (props: OrderModalProps) => {

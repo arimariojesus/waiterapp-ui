@@ -1,23 +1,23 @@
 import { useState } from 'react';
 
 import { OrderModal } from '@/components/OrderModal';
-import { Order } from '@/types/Order';
+import { IOrder } from '@/types/Order';
 
 import * as S from './styles';
 
 interface OrdersBoardProps {
   icon: string;
   title: string;
-  orders: Order[];
+  orders: IOrder[];
 }
 
 export const OrdersBoard = (props: OrdersBoardProps) => {
   const { icon, title, orders } = props;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
 
-  const handleOpenModal = (order: Order) => {
+  const handleOpenModal = (order: IOrder) => {
     setIsModalVisible(true);
     setSelectedOrder(order);
   };
