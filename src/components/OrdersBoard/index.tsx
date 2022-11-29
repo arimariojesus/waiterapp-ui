@@ -39,7 +39,6 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
   const handleCancelOrder = async (order: IOrder) => {
     try {
       setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 3000));
       await api.delete(`/orders/${order._id}`);
       onCancelOrder(order._id);
     } finally {
@@ -51,7 +50,6 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
   const handleChangeOrderStatus = async (order: IOrder) => {
     try {
       setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 3000));
       await api.patch(`/orders/${order._id}`, { status: NEXT_STATUS[order.status] });
     } finally {
       onChangeOrderStatus(order._id, NEXT_STATUS[order.status]);
