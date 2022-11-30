@@ -1,6 +1,8 @@
 import axios from 'axios';
 import type { DefaultResponse } from 'axios';
 
+export const baseURL = 'http://localhost:3333';
+
 /**
  * Request Success Handler
  */
@@ -43,6 +45,7 @@ const request = axios.create({
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
+  baseURL,
 });
 
 /**
