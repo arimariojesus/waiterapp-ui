@@ -6,8 +6,13 @@ import api, { baseURL } from '@/api';
 
 interface OrdersContextData {
   orders: IOrder[];
-  handleCancelOrder: (orderId: string) => void;
-  handleChangeOrderStatus: (orderId: string, status: OrderStatus) => void;
+  isLoading: boolean;
+  handleCancelOrder: (orderId: string, callback?: () => void) => Promise<void>;
+  handleChangeOrderStatus: (
+    orderId: string,
+    status: OrderStatus,
+    callback?: () => void,
+  ) => Promise<void>;
   getOrdersByStatus: (status: OrderStatus) => IOrder[];
 }
 
@@ -19,6 +24,7 @@ interface OrdersProviderProps {
 
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -38,24 +44,54 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     });
   }, []);
 
-  const handleCancelOrder = (orderId: string) => {
-    setOrders(_orders => orders.filter(order => order._id !== orderId));
-  };
+  const handleCancelOrder = React.useCallback(
+    async (orderId: string, callback?: () => void) => {
+      try {
+        setIsLoading(true);
 
-  const handleChangeOrderStatus = (orderId: string, status: OrderStatus) => {
-    setOrders(_orders =>
-      orders.map(order => (order._id === orderId ? { ...order, status } : order)),
-    );
-  };
+        await api.delete(`/orders/${orderId}`);
 
-  const getOrdersByStatus = React.useCallback((status: OrderStatus) => {
-    return orders.filter(order => order.status === status);
-  }, [orders]);
+        setOrders(_orders => orders.filter(order => order._id !== orderId));
+
+        callback?.();
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [orders],
+  );
+
+  const handleChangeOrderStatus = React.useCallback(
+    async (orderId: string, status: OrderStatus, callback?: () => void) => {
+      try {
+        setIsLoading(true);
+
+        await api.patch(`/orders/${orderId}`, { status });
+
+        setOrders(_orders =>
+          orders.map(order => (order._id === orderId ? { ...order, status } : order)),
+        );
+
+        callback?.();
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [orders],
+  );
+
+  const getOrdersByStatus = React.useCallback(
+    (status: OrderStatus) => {
+      return orders.filter(order => order.status === status);
+    },
+    [orders],
+  );
 
   return (
     <OrdersContext.Provider
       value={{
         orders,
+        isLoading,
         handleCancelOrder,
         handleChangeOrderStatus,
         getOrdersByStatus,

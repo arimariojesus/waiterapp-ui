@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import { OrderModal } from '@/components/OrderModal';
-import { api } from '@/services/api';
 import { IOrder, OrderStatus } from '@/types/Order';
+import { useOrders } from '@/hooks';
 
 import * as S from './styles';
 
@@ -15,14 +15,13 @@ interface OrdersBoardProps {
   icon: string;
   title: string;
   orders: IOrder[];
-  onCancelOrder: (orderId: string) => void;
-  onChangeOrderStatus: (orderId: string, status: OrderStatus) => void;
 }
 
 export const OrdersBoard = (props: OrdersBoardProps) => {
-  const { icon, title, orders, onCancelOrder, onChangeOrderStatus } = props;
+  const { icon, title, orders } = props;
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { handleCancelOrder, handleChangeOrderStatus, isLoading } = useOrders();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
 
@@ -36,28 +35,6 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
     setIsModalVisible(false);
   };
 
-  const handleCancelOrder = async (order: IOrder) => {
-    try {
-      setIsLoading(true);
-      await api.delete(`/orders/${order._id}`);
-      onCancelOrder(order._id);
-    } finally {
-      setIsLoading(false);
-      setIsModalVisible(false);
-    }
-  };
-
-  const handleChangeOrderStatus = async (order: IOrder) => {
-    try {
-      setIsLoading(true);
-      await api.patch(`/orders/${order._id}`, { status: NEXT_STATUS[order.status] });
-    } finally {
-      onChangeOrderStatus(order._id, NEXT_STATUS[order.status]);
-      setIsLoading(false);
-      setIsModalVisible(false);
-    }
-  };
-
   return (
     <S.Board>
       {!!selectedOrder && (
@@ -66,8 +43,12 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
           isOpen={isModalVisible}
           isLoading={isLoading}
           onClose={handleCloseModal}
-          onCancelOrder={handleCancelOrder}
-          onChangeStatus={handleChangeOrderStatus}
+          onCancelOrder={({ _id }) => {
+            handleCancelOrder(_id, () => setIsModalVisible(false));
+          }}
+          onChangeStatus={({ _id, status }) => {
+            handleChangeOrderStatus(_id, NEXT_STATUS[status], () => setIsModalVisible(false));
+          }}
         />
       )}
 
