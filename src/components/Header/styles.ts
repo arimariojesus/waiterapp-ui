@@ -10,7 +10,7 @@ export const Container = styled.header`
   background: #d73035;
 `;
 
-export const Content = styled.header`
+export const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
