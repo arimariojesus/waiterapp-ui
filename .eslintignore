@@ -8,3 +8,8 @@ tsconfig.node.json
 # ------------------------------------ Assets ----------------------------------- #
 public/**/*
 node_modules/**/*
+./src/assets/**/*
+public
+dist
+/*.css
+/*.json

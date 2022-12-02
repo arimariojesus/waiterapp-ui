@@ -9,13 +9,31 @@
     "sourceType": "module"
   },
 
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "@typescript-eslint/eslint-plugin"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "@typescript-eslint/eslint-plugin"
+  ],
 
-  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
 
   "settings": {
-    "react": {
-      "version": "detect"
+    "import/extensions": [".ts", ".tsx", ".js", ".jsx"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx", ".js", ".jsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
     }
   },
 
@@ -33,6 +51,7 @@
     "no-unreachable": "warn",
     "strict": ["error", "global"],
     "curly": "warn",
+    "prettier/prettier": "error",
 
     /* React Options */
     "react/jsx-uses-react": "off",
@@ -45,16 +64,5 @@
     /* React Hooks Options */
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
-  },
-
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "no-undef": "off",
-        "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": 1
-      }
-    }
-  ]
+  }
 }
