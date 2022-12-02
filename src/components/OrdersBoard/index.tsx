@@ -47,7 +47,9 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
             handleCancelOrder(_id, () => setIsModalVisible(false));
           }}
           onChangeStatus={({ _id, status }) => {
-            handleChangeOrderStatus(_id, NEXT_STATUS[status], () => setIsModalVisible(false));
+            handleChangeOrderStatus(_id, NEXT_STATUS[status], () =>
+              setIsModalVisible(false),
+            );
           }}
         />
       )}
@@ -61,10 +63,15 @@ export const OrdersBoard = (props: OrdersBoardProps) => {
       {orders.length > 0 && (
         <S.OrdersContainer>
           {orders.map(order => (
-            <S.OrdersButton type="button" key={order._id} onClick={() => handleOpenModal(order)}>
+            <S.OrdersButton
+              type="button"
+              key={order._id}
+              onClick={() => handleOpenModal(order)}
+            >
               <strong>Mesa {order.table}</strong>
               <span>
-                {order.products.length} {order.products.length === 1 ? 'item' : 'itens'}
+                {order.products.length}{' '}
+                {order.products.length === 1 ? 'item' : 'itens'}
               </span>
             </S.OrdersButton>
           ))}

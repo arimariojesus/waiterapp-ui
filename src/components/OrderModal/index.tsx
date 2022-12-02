@@ -42,7 +42,8 @@ interface OrderModalProps {
 }
 
 export const OrderModal = (props: OrderModalProps) => {
-  const { isOpen, onClose, order, isLoading, onCancelOrder, onChangeStatus } = props;
+  const { isOpen, onClose, order, isLoading, onCancelOrder, onChangeStatus } =
+    props;
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {

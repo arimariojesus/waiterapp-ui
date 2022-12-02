@@ -1,6 +1,6 @@
-import { Header } from "@/components/Header";
-import { Orders } from "@/components/Orders";
-import { OrdersProvider } from "@/contexts";
+import { Header } from '@/components/Header';
+import { Orders } from '@/components/Orders';
+import { OrdersProvider } from '@/contexts';
 
 function App() {
   return (

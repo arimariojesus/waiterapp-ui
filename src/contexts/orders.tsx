@@ -69,7 +69,9 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
         await api.patch(`/orders/${orderId}`, { status });
 
         setOrders(_orders =>
-          orders.map(order => (order._id === orderId ? { ...order, status } : order)),
+          orders.map(order =>
+            order._id === orderId ? { ...order, status } : order,
+          ),
         );
 
         callback?.();

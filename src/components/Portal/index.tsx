@@ -35,10 +35,5 @@ export const Portal = (props: PortalProps) => {
     return null;
   }
 
-  return createPortal(
-    <div className={className}>
-      {children}
-    </div>,
-    ref.current,
-  );
+  return createPortal(<div className={className}>{children}</div>, ref.current);
 };

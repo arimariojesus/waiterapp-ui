@@ -123,7 +123,9 @@ export const Buttons = styled.footer`
   gap: 16px;
 `;
 
-export const ActionButton = styled.button<{ variant?: 'primary' | 'secondary' }>`
+export const ActionButton = styled.button<{
+  variant?: 'primary' | 'secondary';
+}>`
   ${({ variant = 'primary' }) => css`
     display: flex;
     align-items: center;
