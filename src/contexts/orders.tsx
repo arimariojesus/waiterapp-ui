@@ -43,6 +43,10 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     socket.on(SOCKET_EVENTS.NEW_ORDERS, (createdOrder: IOrder) => {
       setOrders(_orders => _orders.concat(createdOrder));
     });
+
+    return () => {
+      socket.off(SOCKET_EVENTS.NEW_ORDERS);
+    };
   }, []);
 
   const handleCancelOrder = React.useCallback(
