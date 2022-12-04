@@ -51,14 +51,14 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
         await api.delete(`/orders/${orderId}`);
 
-        setOrders(_orders => orders.filter(order => order._id !== orderId));
+        setOrders(_orders => _orders.filter(order => order._id !== orderId));
 
         callback?.();
       } finally {
         setIsLoading(false);
       }
     },
-    [orders],
+    [],
   );
 
   const handleChangeOrderStatus = React.useCallback(
@@ -69,7 +69,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
         await api.patch(`/orders/${orderId}`, { status });
 
         setOrders(_orders =>
-          orders.map(order =>
+          _orders.map(order =>
             order._id === orderId ? { ...order, status } : order,
           ),
         );
@@ -79,7 +79,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
         setIsLoading(false);
       }
     },
-    [orders],
+    [],
   );
 
   const getOrdersByStatus = React.useCallback(
