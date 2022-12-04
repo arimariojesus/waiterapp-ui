@@ -3,6 +3,7 @@ import socketIo from 'socket.io-client';
 
 import { IOrder, OrderStatus } from '@/types/Order';
 import api, { baseURL } from '@/api';
+import { SOCKET_EVENTS } from '@/enums';
 
 interface OrdersContextData {
   orders: IOrder[];
@@ -39,7 +40,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
       transports: ['websocket'],
     });
 
-    socket.on('orders@new', (createdOrder: IOrder) => {
+    socket.on(SOCKET_EVENTS.NEW_ORDERS, (createdOrder: IOrder) => {
       setOrders(_orders => _orders.concat(createdOrder));
     });
   }, []);
