@@ -47,7 +47,12 @@
 
   "rules": {
     "no-console": "off",
-    "no-unused-vars": "warn",
+    "no-unused-vars": [
+      "off",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "no-unreachable": "warn",
     "strict": ["error", "global"],
     "curly": "warn",
