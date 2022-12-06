@@ -2,8 +2,9 @@ import React, { createContext, useEffect, useState } from 'react';
 import socketIo from 'socket.io-client';
 
 import { IOrder, OrderStatus } from '@/types/Order';
-import api, { baseURL } from '@/api';
+import { baseURL } from '@/api';
 import { SOCKET_EVENTS } from '@/enums';
+import { OrdersService } from '@/services';
 
 interface OrdersContextData {
   orders: IOrder[];
@@ -29,7 +30,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
   useEffect(() => {
     async function fetchOrders() {
-      const data = await api.get<IOrder[]>('/orders');
+      const data = await OrdersService.getAll();
       setOrders(data);
     }
     fetchOrders();
@@ -54,7 +55,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
       try {
         setIsLoading(true);
 
-        await api.delete(`/orders/${orderId}`);
+        await OrdersService.delete(orderId);
 
         setOrders(_orders => _orders.filter(order => order._id !== orderId));
 
@@ -71,7 +72,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
       try {
         setIsLoading(true);
 
-        await api.patch(`/orders/${orderId}`, { status });
+        await OrdersService.changeStatus(orderId, status);
 
         setOrders(_orders =>
           _orders.map(order =>
