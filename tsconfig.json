@@ -1,7 +1,7 @@
 {
   /******************** Root Fields ********************/
   "compileOnSave": true,
-  "include": ["src/**/*", "@types/**/*"],
+  "include": ["src/**/*", "src/@types/**/*"],
   "exclude": ["node_modules", "**/node_modules/*", "build"],
   "references": [{ "path": "./tsconfig.node.json" }],
 
@@ -43,6 +43,6 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "typeRoots": ["@types", "./node_modules/@types"]
+    "typeRoots": ["src/@types", "./node_modules/@types"]
   }
 }
