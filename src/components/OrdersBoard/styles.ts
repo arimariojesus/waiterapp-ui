@@ -35,15 +35,15 @@ export const OrdersButton = styled.button`
   border-radius: 8px;
   height: 128px;
 
-  background: #fff;
+  background: ${({ theme }) => theme.color.white};
 
   strong {
-    font-weight: 500;
+    font-weight: ${({ theme }) => theme.font.weight.medium};
   }
 
   span {
     font-size: 14px;
-    color: #664;
+    color: ${({ theme }) => theme.color.grey};
   }
 
   & + & {
@@ -52,6 +52,6 @@ export const OrdersButton = styled.button`
 
   &:hover {
     border-color: rgba(204, 204, 204, 1);
-    transition: 0.16s;
+    transition: ${({ theme }) => theme.transition.default};
   }
 `;

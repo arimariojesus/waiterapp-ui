@@ -7,7 +7,7 @@ export const Container = styled.header`
 
   height: 198px;
 
-  background: #d73035;
+  background: ${({ theme }) => theme.color.primary};
 `;
 
 export const Content = styled.div`
@@ -20,14 +20,14 @@ export const Content = styled.div`
   padding: 0 40px;
 
   .page-details {
-    color: #fff;
+    color: ${({ theme }) => theme.color.white};
 
     h1 {
       font-size: 32px;
     }
 
     h2 {
-      font-weight: 400;
+      font-weight: ${({ theme }) => theme.font.weight.regular};
       font-size: 16px;
       opacity: 0.9;
       margin-top: 6px;

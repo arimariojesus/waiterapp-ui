@@ -17,7 +17,7 @@ export const Overlay = styled.div`
 `;
 
 export const ModalBody = styled.div`
-  background: #fff;
+  background: ${({ theme }) => theme.color.white};
   width: 480px;
   border-radius: 8px;
   padding: 32px;
@@ -59,7 +59,7 @@ export const ModalBody = styled.div`
 
 export const OrderDetails = styled.div`
   & > strong {
-    font-weight: 500;
+    font-weight: ${({ theme }) => theme.font.weight.medium};
     font-size: 14px;
     opacity: 0.8;
   }
@@ -83,7 +83,7 @@ export const OrderItem = styled.div`
 
   .quantity {
     font-size: 14px;
-    color: #664;
+    color: ${({ theme }) => theme.color.grey};
     display: block;
     min-width: 20px;
     margin-left: 12px;
@@ -99,7 +99,7 @@ export const OrderItem = styled.div`
 
     span {
       font-size: 14px;
-      color: #664;
+      color: ${({ theme }) => theme.color.grey};
     }
   }
 `;
@@ -111,7 +111,7 @@ export const Total = styled.div`
   margin-top: 24px;
 
   span {
-    font-weight: 500;
+    font-weight: ${({ theme }) => theme.font.weight.medium};
     font-size: 14px;
     opacity: 0.8;
   }
@@ -135,7 +135,7 @@ export const ActionButton = styled.button<{
     border-radius: 48px;
     padding: 12px 24px;
 
-    transition: 0.16s;
+    transition: ${({ theme }) => theme.transition.default};
 
     &:disabled {
       opacity: 0.5;
@@ -144,9 +144,9 @@ export const ActionButton = styled.button<{
 
     ${variant === 'primary'
       ? css`
-          background: #333;
+          background: ${({ theme }) => theme.color.text};
           border: 0;
-          color: #fff;
+          color: ${({ theme }) => theme.color.white};
 
           &:hover:not(:disabled) {
             opacity: 0.95;
@@ -154,11 +154,11 @@ export const ActionButton = styled.button<{
         `
       : css`
           background: transparent;
-          border: 1px solid #d73035;
-          color: #d73035;
+          border: 1px solid ${({ theme }) => theme.color.primary};
+          color: ${({ theme }) => theme.color.primary};
 
           &:hover:not(:disabled) {
-            background: #d7303511;
+            background: ${({ theme }) => theme.color.primary}11;
           }
         `}
   `}
