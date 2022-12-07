@@ -56,7 +56,7 @@
     "@typescript-eslint/no-empty-interface": "off",
     "no-unreachable": "warn",
     "strict": ["error", "global"],
-    "curly": "warn",
+    "curly": "off",
     "prettier/prettier": "error",
 
     /* React Options */
