@@ -75,7 +75,7 @@ export const AppThemeProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <ThemeProvider theme={memorizedValue.theme}>
-      <AppThemeContext.Provider value={null}>
+      <AppThemeContext.Provider value={memorizedValue}>
         {children}
       </AppThemeContext.Provider>
       <GlobalStyles />
