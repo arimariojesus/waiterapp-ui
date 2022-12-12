@@ -35,7 +35,7 @@ export const OrdersButton = styled.button`
   border-radius: 8px;
   height: 128px;
 
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.lightGrey};
 
   strong {
     font-weight: ${({ theme }) => theme.font.weight.medium};

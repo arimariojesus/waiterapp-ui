@@ -1,10 +1,7 @@
-const colorDark = {
-  primary: '#D73035',
-  secondary: '',
-  text: '#333333',
-  white: '#FFFFFF',
-  grey: '#666666',
-  background: '#FAFAFA',
+import light from './light';
+
+const colorDark: typeof light = {
+  ...light,
 };
 
 export default colorDark;

@@ -17,7 +17,7 @@ export const Overlay = styled.div`
 `;
 
 export const ModalBody = styled.div`
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.lightGrey};
   width: 480px;
   border-radius: 8px;
   padding: 32px;
